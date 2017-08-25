@@ -1,1 +1,3 @@
-# letmein
+Cowork Timisoara Hackaton
+
+LetMeIn application
