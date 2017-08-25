@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node nodeServer.js"
   },
-  "author": "playbetr",
-  "license": "ISC",
+  "author": "Alex",
+  "license": "MIT",
   "dependencies": {
     "connect": "^3.5.0",
     "express": "^4.14.0",

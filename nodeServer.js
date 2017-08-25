@@ -1,4 +1,4 @@
-var socket 	 = require( 'socket.io' ),
+const socket 	 = require( 'socket.io' ),
  	express  = require( 'express' ),
 	http 	 = require( 'http' ),
 	path     = __dirname,
@@ -8,9 +8,23 @@ var socket 	 = require( 'socket.io' ),
 
 
 //Express
-var app = express();
-var server = module.exports = http.createServer( app );
+const app = express(),
+	server = module.exports = http.createServer( app );
 require('./config/express')(express, app, server, settings, passport);
+
+app.get('/', function(req, res) {
+	res.sendFile(__dirname + '/index.html');
+});
+
+io.on('connection', function(socket){
+	console.log('a user connected');
+	socket.on('disconnect', function(){
+		console.log('user disconnected');
+	});
+	socket.on('chat message', function(msg){
+	io.emit('chat message: ' + msg);
+	});
+  });
 
 //Socket.io
 require('./lib/sockets')(socket, server);
