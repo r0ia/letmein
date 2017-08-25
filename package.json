@@ -1,0 +1,23 @@
+{
+  "name": "letmein_app",
+  "version": "1.0.0",
+  "description": "Hackaton access app7",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.15.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r0ia/letmein.git"
+  },
+  "author": "Alex",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/r0ia/letmein/issues"
+  },
+  "homepage": "https://github.com/r0ia/letmein#readme"
+}
