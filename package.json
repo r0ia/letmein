@@ -1,17 +1,18 @@
 {
-  "name": "plabetr-dice-node",
-  "version": "1.0.0",
-  "description": "NodeJs Package API to show the dice game data",
-  "main": "index.js",
+  "name": "letmein",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "start": "node nodeServer.js"
+    "start": "node ./bin/www"
   },
-  "author": "Alex",
-  "license": "MIT",
   "dependencies": {
-    "connect": "^3.5.0",
-    "express": "^4.14.0",
-    "passport": "^0.3.2",
-    "socket.io": "^2.0.3"
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "express": "~4.15.2",
+    "hbs": "~4.0.1",
+    "less-middleware": "~2.2.0",
+    "morgan": "~1.8.1",
+    "serve-favicon": "~2.4.2"
   }
 }
