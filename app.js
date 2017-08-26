@@ -5,12 +5,20 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var lessMiddleware = require('less-middleware');
+var express = require("express");
+var socket_io = require("socket.io");
+
+var app = express();
+var io = socket_io();
+app.io = io;
+
+io.on("connection", function(socket) {
+  app.socket = socket;
+});
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var api = require('./routes/api/devices');
-
-var app = express();
+var api = require('./routes/api/devices')(app.socket);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
