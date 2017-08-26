@@ -51,17 +51,21 @@ router.route('/devices/:device_id')
     })
     .put(function(req, res) {
         // update my device
-        DeviceModel.find({deviceId:req.params.device_id}, function(err, grantedDevice) {
-            if (err)
-                res.send(err);
-            grantedDevice.name = req.body.name;
-            grantedDevice.save(function(err) {
+        DeviceModel.updateOne(    
+            {
+                deviceId: req.params.device_id
+            },
+            { 
+                $set: { 
+                    'user.firstName': req.body.firstName,
+                    'user.lastName': req.body.lastName
+                },
+            },
+            function(err) {
                 if (err)
                     res.send(err);
-
                 res.json({ message: 'Device updated!' });
             });
-        });
     })
     .delete(function(req, res) {
         DeviceModel.remove({
