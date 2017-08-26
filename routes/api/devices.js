@@ -1,25 +1,30 @@
 var express = require('express');
 var router = express.Router();
-var Device = require('../../models/device');
+var Device = require('../../models/device'),
+DeviceModel = Device.model('Devices');
+
 
 router.route('/devices')
     // create device
     .post(function(req, res) {
-        console.log('I1m here');
-        var device = new Device({
-            deviceId: req.body.deviceId,
-            user: req.body.user
-        });
-        // device.deviceId = req.body.deviceId;
-        // device.user = req.body.user;
         // save the device and check for errors
         try{
-            device.save(function(err) {
-                console.log('am intrat');
+            DeviceModel.find({deviceId:req.body.deviceId}, function(err, grantedDevice) {
                 if (err)
                     res.send(err);
-
-                res.json({ message: 'Device created!' });
+                if(grantedDevice.length > 0) {
+                    res.json({ message: 'Device already created!' }); 
+                } else
+                {
+                    var new_device = new DeviceModel(req.body);            
+                    new_device.save(function(err) {
+                        console.log('am intrat');
+                        if (err)
+                            res.send(err);
+        
+                        res.json({ message: 'Device created!' });
+                    });
+                }
             });
         } catch(e){
             console.log(e);
@@ -27,7 +32,7 @@ router.route('/devices')
     })
     // find devices
     .get(function(req, res) {
-        device.find(function(err, devices) {
+        DeviceModel.find(function(err, devices) {
         if (err)
             res.send(err);
 
@@ -38,7 +43,7 @@ router.route('/devices')
 router.route('/devices/:device_id')
     // get the device by id
     .get(function(req, res) {
-        device.findById(req.params.device_id, function(err, grantedDevice) {
+        DeviceModel.find({deviceId:req.params.device_id}, function(err, grantedDevice) {
             if (err)
                 res.send(err);
             res.json(grantedDevice);
@@ -46,7 +51,7 @@ router.route('/devices/:device_id')
     })
     .put(function(req, res) {
         // update my device
-        device.findById(req.params.device_id, function(err, grantedDevice) {
+        DeviceModel.find({deviceId:req.params.device_id}, function(err, grantedDevice) {
             if (err)
                 res.send(err);
             grantedDevice.name = req.body.name;
@@ -59,8 +64,8 @@ router.route('/devices/:device_id')
         });
     })
     .delete(function(req, res) {
-        device.remove({
-            _id: req.params.device_id
+        DeviceModel.remove({
+            deviceId: req.params.device_id
         }, function(err, bear) {
             if (err)
                 res.send(err);
