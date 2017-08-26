@@ -12,13 +12,9 @@ var app = express();
 var io = socket_io();
 app.io = io;
 
-io.on("connection", function(socket) {
-  app.socket = socket;
-});
-
 var index = require('./routes/index');
 var users = require('./routes/users');
-var api = require('./routes/api/devices')(app.socket);
+var api = require('./routes/api/devices')(app.io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,4 +1,4 @@
-module.exports = function (socket) {
+module.exports = function (io) {
 
     var express = require('express');
     var router = express.Router();
@@ -8,7 +8,6 @@ module.exports = function (socket) {
     router.route('/devices')
         // create device
         .post(function (req, res) {
-            // save the device and check for errors
             try {
                 DeviceModel.find({ deviceId: req.body.deviceId }, function (err, grantedDevice) {
                     if (err)
@@ -47,10 +46,9 @@ module.exports = function (socket) {
                 if (err)
                     res.send(err);
                 if(grantedDevice.length > 0) {
-                    res.json(grantedDevice);                
-                    if(socket) {
-                        socket.emit('test', grantedDevice);
-                    }
+                    var userDetails = grantedDevice.pop().user;
+                    io.sockets.emit('unlocked', userDetails);
+                    res.json(userDetails);                    
                 }
             });
         })
