@@ -1,7 +1,7 @@
 var MongoClient = require('mongoose').MongoClient;
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-var uri = 'mongodb://localhost/devices';
+var uri = 'mongodb://alex:1234@ds159963.mlab.com:59963/letmein';
 
 mongoose.connect( uri, function (err, res) {
     if (err) { 
