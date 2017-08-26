@@ -2,6 +2,7 @@ module.exports = function (io) {
 
     var express = require('express');
     var router = express.Router();
+    var config = require('../../config/config');
     var Device = require('../../models/device'),
         DeviceModel = Device.model('Devices');
 
@@ -31,12 +32,22 @@ module.exports = function (io) {
         })
         // find devices
         .get(function (req, res) {
-            DeviceModel.find(function (err, devices) {
-                if (err)
-                    res.send(err);
-
-                res.json(devices);
-            });
+            let token = req.headers['authorization'];
+            if(token) {
+                if(token.match(config.params.token)) {
+                    DeviceModel.find(function (err, devices) {
+                        if (err)
+                            res.send(err);
+                        res.json(devices);
+                    });
+                } else {
+                    res.status = 401;
+                    res.json({message: "Unauthorized"});
+                }
+            } else {
+                res.status = 401;
+                res.json({message: "Unauthorized"});
+            }
         });
 
     router.route('/devices/:device_id')
