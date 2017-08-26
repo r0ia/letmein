@@ -12,6 +12,7 @@
     "express": "~4.15.2",
     "hbs": "~4.0.1",
     "less-middleware": "~2.2.0",
+    "mongoose": "^4.11.8",
     "morgan": "~1.8.1",
     "serve-favicon": "~2.4.2"
   }

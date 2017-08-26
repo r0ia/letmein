@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('letmein:server');
 var http = require('http');
+var Device = require('../models/device');
 
 /**
  * Get port from environment and store in Express.
