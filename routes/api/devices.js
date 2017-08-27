@@ -60,6 +60,7 @@ module.exports = function (io) {
                     var userDetails = grantedDevice.pop().user;
                     io.sockets.emit('unlock', userDetails);
                     io.sockets.on('unlocked', function(unlocked){
+                        console.log(unlocked);
                         if(unlocked)
                             res.json(userDetails);
                     });
