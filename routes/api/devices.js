@@ -7,9 +7,16 @@ module.exports = function(io) {
         DeviceModel = Device.model('Devices');
 
     var socket = null;
+    var unlock = false;
 
     io.on('connection', function(mySoc) {
         socket = mySoc;
+
+        socket.on('unlocked', function(unlocked) {
+            if (unlocked) {
+                unlock = true;
+            }
+        });
     });
 
     router.route('/devices')
@@ -79,12 +86,24 @@ module.exports = function(io) {
 
                     socket.emit('unlock', userDetails);
 
-                    socket.on('unlocked', function(unlocked) {
-                        if (unlocked) {
+                    var counter = 0;
+                    var x = setInterval(function() {
+                        counter += 1;
+                        if (unlock) {
+                            clearInterval(x);
+                            unlock = false;
                             res.json(userDetails);
                         }
-                    });
+                        if (counter > 40) {
+                            unlock = false;
+                            clearInterval(x);
+                            res.end(false);
+                        }
+                    }, 500);
+
+
                 }
+
             });
         })
         // update my device
