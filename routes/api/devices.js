@@ -58,8 +58,11 @@ module.exports = function (io) {
                     res.send(err);
                 if(grantedDevice.length > 0) {
                     var userDetails = grantedDevice.pop().user;
-                    io.sockets.emit('unlocked', userDetails);
-                    res.json(userDetails);                    
+                    io.sockets.emit('unlock', userDetails);
+                    io.sockets.on('unlocked', function(unlocked){
+                        if(unlocked)
+                            res.json(userDetails);
+                    });
                 }
             });
         })
